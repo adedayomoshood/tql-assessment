@@ -2,6 +2,10 @@ body {
   font-family: sans-serif;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 table {
   border-collapse: collapse;
   border: 1px solid black;
@@ -28,13 +32,15 @@ thead {
 th,
 td {
   border: 1px solid black;
+  height: 45px;
+  line-height: 24px;
   padding: 10px;
 }
 
 thead th {
   background-color: #333;
   color: #fff;
-  text-align: left;
+  text-align: center;
 }
 
 tbody tr:nth-child(odd) {
@@ -49,11 +55,29 @@ tbody tr:nth-child(even) {
   background-color: #04aa6d;
   border: 1px solid green;
   color: white;
+  display: flex;
+  flex-direction: column;
+  line-height: 18px;
   padding: 10px 24px;
   cursor: pointer;
   float: left;
   pointer-events: all;
+  position: relative;
   transition: 0.3s;
+}
+
+.btn-group button::after {
+  content: "";
+  position: absolute;
+  background: transparent;
+  border: 3px solid;
+  border-color: white transparent white transparent;
+  box-sizing: border-box;
+  border-radius: 30px;
+  height: 30px;
+  top: 4px;
+  margin:  auto;
+  width: 30px;
 }
 
 .btn-group::after {
