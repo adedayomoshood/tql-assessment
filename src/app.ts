@@ -7,8 +7,13 @@ const nextButton = document.querySelector<HTMLButtonElement>(
 const buttonGroup = document.querySelector<HTMLElement>(".btn-group");
 
 const apiBaseUrl = "https://randomapi.com/api/8csrgnjw?key=LEIX-GF3O-AG7I-6J84";
+const url = new URL(window.location.href);
+let currentPage = Number(url.searchParams.get("page"));
 
-let currentPage: number;
+if (!currentPage || isNaN(currentPage)) {
+  url.searchParams.delete("page");
+  window.history.pushState({}, "", url);
+}
 
 const getUsers = async (page: number | undefined) => {
   return fetch(`${apiBaseUrl}${page ? `&page=${page}` : ""}`)
@@ -35,6 +40,8 @@ const getAndPopulateUsers = async (page: number) => {
 };
 
 const goToPage = async (page: number) => {
+  url.searchParams.set("page", page.toString());
+  window.history.pushState({}, "", url);
   currentPage = page;
 
   await getAndPopulateUsers(page);
