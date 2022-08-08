@@ -1,3 +1,10 @@
+type User = {
+  age: string;
+  gender: string;
+  id: string;
+  row: string;
+};
+
 const previousButton = document.querySelector<HTMLButtonElement>(
   "button[data-prevbtn]"
 );
@@ -15,7 +22,7 @@ if (!currentPage || isNaN(currentPage)) {
   window.history.pushState({}, "", url);
 }
 
-const getUsers = async (page: number | undefined) => {
+const getUsers = async (page?: number) => {
   return fetch(`${apiBaseUrl}${page ? `&page=${page}` : ""}`)
     .then((res) => res.json())
     .then((res) => {
@@ -23,16 +30,32 @@ const getUsers = async (page: number | undefined) => {
     });
 };
 
-const populateTable = (data, page: number) => {
+const populateTable = (users: User[], page: number) => {
+  const tableBody =
+    document.querySelector<HTMLTableSectionElement>("tbody[data-sink]");
   const pageView = document.querySelector<HTMLElement>("label[data-pageview]");
+
+  const columns = ["row", "gender", "age"];
+
+  if (tableBody) {
+    for (let i = 0; i < tableBody.rows.length; i++) {
+      for (let j = 0; j < tableBody.rows[i].cells.length; j++) {
+        const field = columns[j];
+
+        tableBody.rows[i].cells[j].dataset.entryid = users[i].id;
+        tableBody.rows[i].cells[j].innerHTML = users[i][field];
+      }
+    }
+  }
 
   if (pageView) pageView.innerHTML = `Showing page ${page || 1}`;
 };
 
 const getAndPopulateUsers = async (page: number) => {
   const data = await getUsers(page);
-  populateTable(data, page);
-  return;
+  const users: User[] = data?.results[0][page || 1];
+
+  populateTable(users, page);
 };
 
 const goToPage = async (page: number) => {
@@ -63,11 +86,11 @@ const startApp = async () => {
   }
 
   nextButton?.addEventListener("click", handleNextPage);
+
+  buttonGroup?.addEventListener("click", () => {
+    if (previousButton)
+      previousButton.disabled = !(currentPage && currentPage > 1);
+  });
 };
 
 document.addEventListener("DOMContentLoaded", startApp);
-
-buttonGroup?.addEventListener("click", () => {
-  if (previousButton)
-    previousButton.disabled = !(currentPage && currentPage > 1);
-});
