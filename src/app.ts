@@ -12,6 +12,7 @@ const nextButton = document.querySelector<HTMLButtonElement>(
   "button[data-nextbtn]"
 );
 const buttonGroup = document.querySelector<HTMLElement>(".btn-group");
+const canShowLoading = document.querySelectorAll(".hasLoader");
 
 const apiBaseUrl = "https://randomapi.com/api/8csrgnjw?key=LEIX-GF3O-AG7I-6J84";
 const url = new URL(window.location.href);
@@ -22,11 +23,31 @@ if (!currentPage || isNaN(currentPage)) {
   window.history.pushState({}, "", url);
 }
 
+const setLoading = (isLoading: boolean) => {
+  if (isLoading) {
+    for (let i = 0; i < canShowLoading.length; i++) {
+      canShowLoading[i].classList.add("loading");
+    }
+  } else {
+    for (let i = 0; i < canShowLoading.length; i++) {
+      canShowLoading[i].classList.remove("loading");
+    }
+  }
+};
+
 const getUsers = async (page?: number) => {
+  setLoading(true);
+
   return fetch(`${apiBaseUrl}${page ? `&page=${page}` : ""}`)
     .then((res) => res.json())
     .then((res) => {
       return res;
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+      setLoading(false);
     });
 };
 
@@ -39,10 +60,11 @@ const populateTable = (users: User[], page: number) => {
 
   if (tableBody) {
     for (let i = 0; i < tableBody.rows.length; i++) {
+      tableBody.rows[i].dataset.entryid = users[i].id;
+
       for (let j = 0; j < tableBody.rows[i].cells.length; j++) {
         const field = columns[j];
 
-        tableBody.rows[i].cells[j].dataset.entryid = users[i].id;
         tableBody.rows[i].cells[j].innerHTML = users[i][field];
       }
     }

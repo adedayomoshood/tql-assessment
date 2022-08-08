@@ -13,6 +13,38 @@ table {
   vertical-align: middle;
   min-width: 65%;
   margin-bottom: 1em;
+  position: relative;
+  transition: 0.3s;
+}
+
+table.loading::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 45px);
+  background: #000;
+  opacity: 0.5;
+  display: block;
+  top: 45px;
+}
+
+table.loading::after {
+  content: "";
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  border-radius: 75px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-right-color: #ffffff;
+  display: block;
+  top: calc((100% - 35px)/2);
+  left: calc((100% - 75px)/2);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 caption {
@@ -66,18 +98,9 @@ tbody tr:nth-child(even) {
   transition: 0.3s;
 }
 
-.btn-group button::after {
-  content: "";
-  position: absolute;
-  background: transparent;
-  border: 3px solid;
-  border-color: white transparent white transparent;
-  box-sizing: border-box;
-  border-radius: 30px;
-  height: 30px;
-  top: 4px;
-  margin:  auto;
-  width: 30px;
+.btn-group button.loading {
+  pointer-events: none;
+  opacity: 0.75;
 }
 
 .btn-group::after {
