@@ -21,11 +21,11 @@ table.loading::before {
   content: "";
   position: absolute;
   width: 100%;
-  height: calc(100% - 45px);
+  height: calc(100% - 40px);
   background: #000;
   opacity: 0.5;
   display: block;
-  top: 45px;
+  top: 40px;
 }
 
 table.loading::after {
@@ -35,7 +35,7 @@ table.loading::after {
   height: 75px;
   border-radius: 75px;
   border: 3px solid rgba(255, 255, 255, 0.2);
-  border-right-color: #ffffff;
+  border-right-color: #fff;
   display: block;
   top: calc((100% - 35px)/2);
   left: calc((100% - 75px)/2);
@@ -52,6 +52,7 @@ caption {
   text-align: left;
   color: #333;
   margin-bottom: 16px;
+  line-height: 24px;
 }
 
 thead {

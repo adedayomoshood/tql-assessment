@@ -25,12 +25,12 @@ if (!currentPage || isNaN(currentPage)) {
 
 const setLoading = (isLoading: boolean) => {
   if (isLoading) {
-    for (let i = 0; i < canShowLoading.length; i++) {
-      canShowLoading[i].classList.add("loading");
+    for (let element of canShowLoading) {
+      element.classList.add("loading");
     }
   } else {
-    for (let i = 0; i < canShowLoading.length; i++) {
-      canShowLoading[i].classList.remove("loading");
+    for (let element of canShowLoading) {
+      element.classList.remove("loading");
     }
   }
 };
@@ -70,7 +70,7 @@ const populateTable = (users: User[], page: number) => {
     }
   }
 
-  if (pageView) pageView.innerHTML = `Showing page ${page || 1}`;
+  if (pageView) pageView.innerHTML = `Showing Page ${page || 1}`;
 };
 
 const getAndPopulateUsers = async (page: number) => {
