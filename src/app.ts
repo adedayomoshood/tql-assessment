@@ -24,11 +24,7 @@ const getUsers = async (page: number | undefined) => {
 };
 
 const populateTable = (data, page: number) => {
-  const tableBody = document.querySelector<HTMLElement>("tbody[data-sink]");
   const pageView = document.querySelector<HTMLElement>("label[data-pageview]");
-
-  console.log({page});
-  
 
   if (pageView) pageView.innerHTML = `Showing page ${page || 1}`;
 };
