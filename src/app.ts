@@ -22,7 +22,8 @@ const populateTable = (data, page: number) => {
   const tableBody = document.querySelector<HTMLElement>("tbody[data-sink]");
   const pageView = document.querySelector<HTMLElement>("label[data-pageview]");
 
-  console.log({ page });
+  console.log({page});
+  
 
   if (pageView) pageView.innerHTML = `Showing page ${page || 1}`;
 };
@@ -33,13 +34,32 @@ const getAndPopulateUsers = async (page: number) => {
   return;
 };
 
+const goToPage = async (page: number) => {
+  currentPage = page;
+
+  await getAndPopulateUsers(page);
+};
+
+const handlePreviousPage = () => {
+  const previousPageNumber = currentPage > 1 ? currentPage - 1 : 1;
+
+  goToPage(previousPageNumber);
+};
+
+const handleNextPage = () => {
+  const nextPageNumber = currentPage ? currentPage + 1 : 2;
+  goToPage(nextPageNumber);
+};
+
 const startApp = async () => {
   await getAndPopulateUsers(currentPage);
 
   if (previousButton) {
+    previousButton.addEventListener("click", handlePreviousPage);
     previousButton.disabled = !(currentPage && currentPage > 1);
   }
 
+  nextButton?.addEventListener("click", handleNextPage);
 };
 
 document.addEventListener("DOMContentLoaded", startApp);
