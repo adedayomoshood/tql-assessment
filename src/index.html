@@ -11,7 +11,8 @@
   </head>
 
   <body>
-    <table class="hasLoader">
+    <section class="table-wrapper hasLoader">
+    <table>
       <caption>
         paginated random data of app users
       </caption>
@@ -50,7 +51,11 @@
         </tr>
       </tbody>
     </table>
+    </section>
 
+    <section class="error">
+        There was an error fetching app users. Pleas, try again
+    </section>
     <div class="btn-group">
       <button data-prevbtn class="hasLoader" disabled>Previous</button>
       <button data-nextbtn class="hasLoader">Next</button>
