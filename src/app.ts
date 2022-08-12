@@ -82,8 +82,9 @@ const populateTable = (users: User[], page: number) => {
 const getAndPopulateUsers = async (page: number) => {
   errorSection?.classList.remove("show");
   const data = await getUsers(page);
+  
 
-  if (data?.error) {
+  if (!data || data?.error) {
     errorSection?.classList.add("show");
     return;
   }
